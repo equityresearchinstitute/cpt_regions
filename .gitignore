@@ -3,8 +3,10 @@ OUT_CSV_MAPDATA_CENTRAL_COAST_V1.CSV
 OUT_CSV_MAPDATA_CENTRAL_VALLEY_V1.CSV
 OUT_CSV_MAPDATA_SACRAMENTO_REGION_V1.CSV
 OUT_CSV_MAPDATA_SOUTH_COAST_V1.CSV
+OUT_CSV_MAPDATA_INLAND_EMPIRE_V1.CSV
 bay-area-santa-cruz.xlsx
-central-coast-xlsx
+central-coast.xlsx
+central-valley.xlsx
 inland-empire.xlsx
 sacramento-region.xlsx
 south-coast.xlsx
