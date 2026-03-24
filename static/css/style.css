@@ -1,0 +1,583 @@
+/*File name: style.css
+Author: Arpita Sharma
+Date Created: 1/05/2026
+Date Modified: 1/08/2025
+Purpose: To styles all the elements of the mapping webpage, including maps, mouseovers, bottom panel, text, etc.
+*/
+
+/* Import Roboto Mono font */
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;600;700&display=swap');
+
+/*This is the styling for the login page*/
+
+
+/*This is the styling for the mapping page */
+body {
+  padding: 0;
+  margin: 0;
+}
+
+#app {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  background-color: black;
+  width: 100vw;
+  height: 5vh;
+  display: flex;
+}
+
+input {
+  display: none;
+}
+
+.tab-name {
+  color: white;
+  font-family: 'Montserrat', regular;
+  height: 5vh;
+  background:  rgb(84, 84, 84);
+  padding: 1vh 3.5vw;
+  margin-right: 5px;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+input:checked + label .tab-name{
+  background: rgb(235, 184, 64);
+  color: black;
+  font-size: 18px;
+  font-weight: 800;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+#map {
+  flex: 1;
+  width: 100%;
+  position: relative;
+}
+
+#legend-container {
+  position: absolute;
+  top: 20%;
+  max-width: 10%;
+  right: 2.5%;
+  border-top: 1px solid #000;
+  background:  rgb(84, 84, 84);
+  border-radius: 5%;
+  z-index: 1000;
+  padding: 1.5% 1.5%;
+  box-shadow: 0 0 0 2px rgb(0 0 0 /10%);
+}
+
+#legend-header {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  font-family: 'Montserrat', regular;
+}
+
+#legend-header h1 {
+  float: left;
+  font-size: 1.7em;
+  font-weight: 800;
+  color: rgb(235, 184, 64);
+  font-family: 'Montserrat', regular;
+}
+
+#legend-header h2 {
+  float: left;
+  font-size: 1.1em;
+  font-weight: 600;
+  color: white;
+  font-family: 'Montserrat', regular;
+}
+
+.circle-1 {
+  float: left;
+  border: 5px  solid white;
+  background-color: #FF595E ;
+  border: 1%;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin-right: 20px;
+}
+
+.circle-2 {
+  float: left;
+  border: 5px solid white;
+  background-color: #FF924C;
+  border: 1%;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin-right: 20px;
+}
+
+.circle-3 {
+  float: left;
+  border: 5px solid white;
+  background-color: #FFCA3A;
+  border: 1%;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin-right: 20px;
+}
+
+.circle-4 {
+  float: left;
+  border: 5px solid white;
+  background-color: #8AC926;
+  border: 1%;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin-right: 20px;
+}
+
+.circle-5 {
+  float: left;
+  border: 5px solid white;
+  background-color: #1982C4;
+  border: 1%;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin-right: 20px;
+}
+
+.circle-6 {
+  float: left;
+  border: 5px solid white;
+  background-color: #6A4C93;
+  border: 1%;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin-right: 20px;
+}
+
+.legend-text {
+  font-family: Lato;
+  font-weight: 500;
+  font-size: 18px;
+  margin-bottom: 2px;
+  color: #ffffff;
+}
+
+/* this is the bottom panel styling content */
+#bottomPanel {
+  width: 100%;
+  border-top: 1px solid #ddd;
+  background: rgb(84, 84, 84);
+  border-radius: 25px 25px 0 0;
+}
+
+#bottomPanel.hidden {
+  display: none;
+}
+
+#panel-content {
+  max-width:100%;
+  margin: 0 auto;
+  padding: 16px 24px;
+}
+
+/* this is the text container for the bottom panel */
+#panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+  font-family: 'Montserrat', regular;
+}
+
+#panel-header h1 {
+  font-family: Lato;
+  font-size: 1.5em;
+  font-weight: 700;
+  color: rgb(235, 184, 64);
+  font-family: 'Montserrat', regular;
+}
+#exportBtn {
+  background-color: rgb(235, 184, 64);
+  color: black;
+  border: 0;
+  padding: 8px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+  font-family: 'Montserrat', regular;
+}
+
+/* these are all the table rows*/
+#selectedTable {
+  max-height: 200px;
+  overflow: auto;
+  text-align: right;
+  font-family: 'Montserrat', regular;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  text-align: right;
+  color: white;
+  font-family: 'Montserrat', regular;
+}
+
+#data-table thead th {
+  position: sticky;
+  top: 0;
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 1px solid white;
+  font-weight: 600;
+  white-space: nowrap;
+  font-family: 'Montserrat', regular;
+}
+
+#data-table tbody td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #ddd;
+  white-space: nowrap;
+  font-family: 'Montserrat', regular;
+
+}
+
+#data-table .num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-family: 'Montserrat', regular;
+}
+
+.empty-row td {
+  color: white;
+  text-align: center;
+  padding: 18px 12px;
+  font-family: 'Montserrat', regular;
+}
+
+/*This is the styling for the info panel*/
+.infoPanel {
+  position: absolute;
+  top: 20vh;
+  right: 25%;
+  background: rgb(84, 84, 84);
+  transform: translateX(-50%);
+
+  border-radius: clamp(10px, 2vw, 16px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  width: min(50vw, 350px);
+  max-height: 150vh;
+  overflow-y: auto;
+  font-family: 'Montserrat', regular;
+}
+
+/* Hidden state */
+.infoPanel.hidden {
+  display: none;
+}
+
+/* 3 fixed columns */
+.infoPanel .pt-cols {
+  display: flex;
+  gap: 0%;
+  padding: 10%;
+}
+
+/* Each column card */
+.infoPanel .pt-col {
+  flex: 1;
+  min-width: 1vw;
+}
+
+.infoPanel .pt-section-title {
+  font-weight: 800;
+  font-size: 16px;
+  opacity: 0.9;
+  margin-bottom: 2%;
+  margin-top: 2%;
+  color: rgb(235, 184, 64);
+  letter-spacing: 0.5px;
+}
+
+.infoPanel .pt-section-title:first-child {
+  margin-top: 0;
+}
+
+.infoPanel .pt-col-body {
+  display: flex;
+  flex-direction: column;
+  gap: .5%;
+}
+
+/* Each key/value tile */
+.infoPanel .pt-kv {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: .5%;
+}
+
+.infoPanel .pt-label {
+  font-size: 14px;
+  opacity: 0.85;
+  font-weight: 500;
+  color: #ddd;
+}
+
+.infoPanel .pt-val {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: white;
+}
+
+/*This is the mouseover text styling*/
+.infoPanel .pt-title {
+  font-weight: 700;
+  font-size: 16px;
+  margin-bottom: 2px;
+  margin-top: 5px;
+}
+
+.infoPanel .pt-text {
+  font-weight: 600;
+  font-size: 10px;
+  margin-bottom: 2px;
+}
+
+.infoPanel .pt-col-action {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.pt-compare {
+  background-color: rgb(235, 184, 64);
+  color: #000;
+  border: 0;
+  padding: 8px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.pt-compare:hover {
+  background: rgb(255, 200, 100);
+}
+
+body,
+html {
+  height: 100%;
+}
+.infoPanel .pt-text {
+  font-weight: 600;
+  font-size: 10px;
+  margin-bottom: 2px;
+}
+
+.infoPanel .pt-col-action {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.pt-compare {
+  background-color: rgb(235, 184, 64);
+  color: #000;
+  border: 0;
+  padding: 8px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+  font-family: 'Montserrat', regular;
+}
+
+.pt-compare:hover {
+  background: rgb(255, 200, 100);
+}
+
+.pt-remove {
+  background-color: rgb(235, 184, 64);
+  color: #000;
+  border: 0;
+  padding: 8px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+  font-family: 'Montserrat', regular;
+}
+
+.pt-remove:hover {
+  background: rgb(255, 200, 100);
+}
+
+/*This is the styling for the filter button*/
+
+.filter-container {
+  position: absolute;
+  top: 10%;
+  right: 2.5%;
+  z-index: 1000;
+}
+
+.openModal {
+  background:  rgb(84, 84, 84);;
+  border-radius: 28px;
+  border: 1px solid #ccc;
+  padding: 8px 16px;
+  transition: box-shadow 0.25s;
+  font-size: 20px;
+  font-family: 'Montserrat', bold;
+  color: rgb(255, 200, 100);
+  cursor: pointer;
+}
+
+.modal {
+  position: absolute;
+  background:  rgb(84, 84, 84);;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  padding: 8px 10px;
+  margin-top: 10px;
+  margin-top: 5px;
+  width: 200px;
+  
+  z-index: 1001;
+}
+
+
+.hidden {
+  display: none;
+}
+
+.modal-inner {
+  background:  rgb(84, 84, 84);
+  padding: 50px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.modal-inner h2 {
+  color: rgb(255, 200, 100);
+  font-family: 'Montserrat', bold;
+  font-size: 20px;
+}
+
+.filter-group {
+  margin-bottom:14px;
+}
+
+.filter-group-title {
+  display: block;
+  font-size: 14px;
+  font-family: 'Montserrat', bold;
+  text-transform: uppercase;
+  color: rgb(255, 200, 100);
+  margin-bottom: 10px;
+
+}
+
+.range-inputs {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.range-inputs input {
+  width: 100%;
+  padding: 8px 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  font-family: 'Montserrat', bold;
+  color: black;
+}
+
+#apply-filter {
+  width: 100%;
+  padding: 8px;
+  background: #1982C4;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: 'Montserrat', bold;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+#reset-filter {
+  width: 100px;
+  padding: 8px;
+  background: #eee;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#closeModal {
+  position: absolute;
+  width: 100px;
+  background: #eee;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #eee;
+}
+
+/*This is the styling for the search box*/
+
+.search-box {
+    --padding: 14px;
+
+  position: absolute;
+  top: 10%;
+  right: 50.5%;
+  z-index: 1000;
+  width: max-content;
+  display: flex;
+  align-items: center;
+  padding: var(--padding);
+  border-radius: 28px;
+  background: #f6f6f6;
+  width: 600px;
+  transition: box-shadow 0.25s;
+  
+}
+
+.search-box:focus-within {
+  box-shadow: 0 0 2px;
+}
+
+.search-box input {
+  font-size: 16px;
+  font-family: 'Montserrat', bold;
+  color: #333333;
+  margin-left: var(--padding);
+  outline: none;
+  border: none;
+  background: transparent;
+  flex: 1;
+}
+
+.search-box-input::placeholder,
+.search-box-icon {
+  color: rgba(0,0,0,0.25);
+}
