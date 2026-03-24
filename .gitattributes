@@ -1,2 +1,6 @@
+data/json/bay-area-santa-cruz.json filter=lfs diff=lfs merge=lfs -text
+data/json/central-valley.json filter=lfs diff=lfs merge=lfs -text
+data/json/central-coast.json filter=lfs diff=lfs merge=lfs -text
 data/json/south-coast.json filter=lfs diff=lfs merge=lfs -text
 data/json/inland-empire.json filter=lfs diff=lfs merge=lfs -text
+data/json/sacramento-region.json filter=lfs diff=lfs merge=lfs -text
