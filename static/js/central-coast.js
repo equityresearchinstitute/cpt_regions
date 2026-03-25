@@ -110,16 +110,15 @@ const street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
 
               function getCategoryColor(category) {
                 switch(category) {
-                  case '1' : return '#FF595E';
-                  case '2' : return '#FF924C';
-                  case '3' : return '#FFCA3A';
-                  case '4' : return '#8AC926';
-                  case '5' : return '#1982C4';
-                  case '6' : return '#6A4C93';
+                  case 1 : return '#FF595E';
+                  case 2 : return '#FF924C';
+                  case 3 : return '#FFCA3A';
+                  case 4 : return '#8AC926';
+                  case 5 : return '#1982C4';
+                  case 6 : return '#6A4C93';
                   default: return '#ffffff';
                 }
               }
-
 
               
               /*-----------------------------------------------------------------------------------*/
