@@ -50,7 +50,11 @@ const street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       fetch('https://docs.google.com/spreadsheets/d/1FE-xVNZjpPqsj3pp1nuy0sMD4RIrz2hf/gviz/tq?') 
         .then(res => res.text())
         .then(text => {
-          const clean = text.replace(/^\/\*[^*]*\*\/\s*/, "");
+          const clean = text
+            .replace(/^\/\*[\s\S]*?\*\/\s*/, "")  // strip /*O_o*/
+            .replace(/^[^(]+\(/, "")              // strip google.visualization.Query.setResponse(
+            .replace(/\);?\s*$/, "");             // strip closing );
+          console.log("CLEAN:", clean.substring(0, 150)); // 👈 add this
           const response = JSON.parse(clean);
 
           const parsedRows = response.table.rows.map(row =>
