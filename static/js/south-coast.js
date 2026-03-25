@@ -47,7 +47,7 @@ const street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       let allParcels = [];
 
       // Fetch data from our protected API endpoint instead of directly from Google Sheets
-      fetch('cpt_regions/data/json/south-coast.json') 
+      fetch('https://docs.google.com/spreadsheets/d/1-B801_52z64Kg0-6viaDG6uV66pZdDCq/gviz/tq?') 
         .then(res => res.json())
         .then(response => {
           if (!response.success) {

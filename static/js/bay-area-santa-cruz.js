@@ -47,7 +47,7 @@ const street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       let allParcels = [];
 
       // Fetch data from our protected API endpoint instead of directly from Google Sheets
-      fetch('cpt_regions/data/json/bay-area-santa-cruz.json') 
+      fetch('https://docs.google.com/spreadsheets/d/1IhKvrjBWL5mSehhKqkbvsZDSsqBbJnn3/gviz/tq?') 
         .then(res => res.json())
         .then(response => {
           if (!response.success) {
