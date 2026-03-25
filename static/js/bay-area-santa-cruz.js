@@ -47,20 +47,26 @@ const street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       let allParcels = [];
 
       // Fetch data from our protected API endpoint instead of directly from Google Sheets
-      fetch('https://docs.google.com/spreadsheets/d/1IhKvrjBWL5mSehhKqkbvsZDSsqBbJnn3/gviz/tq?') 
-        .then(res => res.json())
-        .then(response => {
-          if (!response.success) {
-            throw new Error('Failed to fetch data');
-          }
-        
-        const parsedRows = response.data;
-        console.log('Data loaded:', parsedRows.length, 'rows');
-        console.log("First row sample:", parsedRows[0]);
-        console.log("Second row sample:", parsedRows[1]);
-        
-        const norm = (x) => String(x ?? "").replace(/[-\s]/g, "").trim();
-        const byApn = Object.fromEntries(parsedRows.map(r => [norm(r.UNFORMATTEDAPN),r]));
+
+      fetch('https://docs.google.com/spreadsheets/d/1IhKvrjBWL5mSehhKqkbvsZDSsqBbJnn3/gviz/tq?')
+        .then(res => res.text())
+        .then(text => {
+          const clean = text.replace(/^\/\*[^*]*\*\/\s*/, "");
+          const response = JSON.parse(clean);
+
+          const parsedRows = response.table.rows.map(row =>
+            Object.fromEntries(row.c.map((cell, i) => [
+              response.table.cols[i].label,
+              cell?.v ?? null
+            ]))
+          );
+
+          console.log('Data loaded:', parsedRows.length, 'rows');
+          console.log("First row sample:", parsedRows[0]);
+          console.log("Second row sample:", parsedRows[1]);
+
+          const norm = (x) => String(x ?? "").replace(/[-\s]/g, "").trim();
+          const byApn = Object.fromEntries(parsedRows.map(r => [norm(r.UNFORMATTEDAPN), r]));
       
 
           /*-----------------------------------------------------------------------------------*/
