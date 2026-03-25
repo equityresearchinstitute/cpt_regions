@@ -42,7 +42,7 @@ const street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       /*-----------------------------------------------------------------------------------*/
       /* Importing Parcels from Protected API */
       /*-----------------------------------------------------------------------------------*/
-
+      const search = document.getElementById('search');
       let allParcels = [];
 
       // Fetch data from our protected API endpoint instead of directly from Google Sheets
@@ -146,9 +146,10 @@ const street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
                     // Search
                     if (searchTerm) {
                       const address = (p?.ADDRESS || "").toUpperCase();
+                      const city = (p?.CITY || "").toUpperCase();
                       const county = (p?.COUNTY || "").toUpperCase();
                       const zipcode = (p?.ZIPCODE || "").toUpperCase();
-                      if (!address.includes(searchTerm) && !county.includes(searchTerm) && !zipcode.includes(searchTerm)) return false;
+                      if (!address.includes(searchTerm) && !county.includes(searchTerm) && !city.includes(searchTerm) && !zipcode.includes(searchTerm)) return false;
                     }
 
                     //Land value
@@ -214,8 +215,8 @@ const street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
                 function updateParcels() {
                   const filtered = allParcels.filter(p => {
                     //Numeric fields - skip nulls
-                    if (hasValue(p.LANDVALUE)) {
-                      if (p.LANDVALUE < minLandValue || p.LANDVALUE > maxLandValue) return false;
+                    if (hasValue(p.ASSDLANDVALUEPERTOTALLANDSQUAREFOOTAGE)) {
+                      if (p.ASSDLANDVALUEPERTOTALLANDSQUAREFOOTAGE < minLandValue || p.ASSDLANDVALUEPERTOTALLANDSQUAREFOOTAGE > maxLandValue) return false;
                     } else {
                       return false;
                     }

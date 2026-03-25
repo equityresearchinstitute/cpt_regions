@@ -62,6 +62,10 @@ the bottom pannel includes a table, which expands as we select properties to add
             </label>
             </div>
             <div id="map"></div>
+            <div class ="search-box">
+                <span class="search-icon material-symbols-outlined">search</span>
+                <input type="text"  id="search" placeholder="Search properties">
+            </div>
             <div id="legend-container">
                 <div id="legend-header">
                     <h1>Legend</h1>
@@ -74,14 +78,12 @@ the bottom pannel includes a table, which expands as we select properties to add
                     <p><div class="circle-5"></div><span class=legend-text>$100-250/sqft</span></p>
                     <p><div class="circle-6"></div><span class=legend-text>$250 or more/sqft</span></p>
                 </div>
-                        <div class ="search-box">
-                <span class="search-icon material-symbols-outlined">search</span>
-                <input type="text"  id="search" placeholder="Search properties">
-            </div>
+
             <div class="filter-container">
             <button class="openModal">Filter ▼</button>
             <div id="modal" class="hidden">
                 <div class="modal-inner">
+                    <button class="closeModal">X</button>
                     <h2>Filters</h2>
                     <!-- Land Value  -->
                     <div class="filter-group">
@@ -94,7 +96,7 @@ the bottom pannel includes a table, which expands as we select properties to add
                 </div>
                 <button id="apply-filter">Apply Filters</button>
                 <button id="reset-filter">Reset</button>
-                <button class="closeModal">Close</button>
+
                 </div>
         </div>
 

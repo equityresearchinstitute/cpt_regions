@@ -6,18 +6,6 @@
 //Purpose: To bring in the basemap street layer and parcels, and create a box at the bottom of the website where selected properties show up in a table and can be exported as an Excel workbook
 /*-----------------------------------------------------------------------------------*/
 
-/*-----------------------------------------------------------------------------------*/
-/* Authentication Check */
-/*-----------------------------------------------------------------------------------*/
-
-// Check if user is authenticated, redirect to login if not
-/*const authToken = sessionStorage.getItem('authToken');
-console.log('on index.html - Auth token retrieved:', authToken);
-console.log('token exists:', !!authToken);
-if (!authToken) {
-  console.log('No token found, redirecting to login');
-  window.location.href = '/login.html';
-}*/
 
 
 /*-----------------------------------------------------------------------------------*/
@@ -43,7 +31,7 @@ const street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       /*-----------------------------------------------------------------------------------*/
       /* Importing Parcels from Protected API */
       /*-----------------------------------------------------------------------------------*/
-
+      const search = document.getElementById('search');
       let allParcels = [];
 
       // Fetch data from our protected API endpoint instead of directly from Google Sheets
@@ -131,7 +119,7 @@ const street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
 
               //creating filter options
               let minLandValue = 0;
-              let maxLandValue = 1000000000;
+              let maxLandValue = 100000;
 
               //creating a parcels layer
               let parcelsLayer;
@@ -217,8 +205,8 @@ const street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
                 function updateParcels() {
                   const filtered = allParcels.filter(p => {
                     //Numeric fields - skip nulls
-                    if (hasValue(p.LANDVALUE)) {
-                      if (p.LANDVALUE < minLandValue || p.LANDVALUE > maxLandValue) return false;
+                    if (hasValue(p.ASSDLANDVALUEPERTOTALLANDSQUAREFOOTAGE)) {
+                      if (p.ASSDLANDVALUEPERTOTALLANDSQUAREFOOTAGE < minLandValue || p.ASSDLANDVALUEPERTOTALLANDSQUAREFOOTAGE > maxLandValue) return false;
                     } else {
                       return false;
                     }
@@ -305,7 +293,7 @@ const street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
                     const city = (f.properties?.CITY || "").toUpperCase();
                     const county = (f.properties?.COUNTY || "").toUpperCase();
                     const zipcode = (f.properties?.ZIPCODE || "").toUpperCase();
-                    return address.includes(searchTerm) || county.includes(searchTerm) || city.includes(searchterm) || zipcode.includes(searchTerm);
+                    return address.includes(searchTerm) || county.includes(searchTerm) || city.includes(searchTerm) || zipcode.includes(searchTerm);
                   });
 
                   if (match) {
@@ -331,7 +319,7 @@ const street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
                 console.log("Apply Button Cleared!");
                 minLandValue = parseFloat(document.getElementById('land-value-min').value) || 0;
                 console.log('land-value-min:', document.getElementById('land-value-min')?.value);
-                maxLandValue = parseFloat(document.getElementById('land-value-max').value) || 0;
+                maxLandValue = parseFloat(document.getElementById('land-value-max').value) || 10000000;
                 console.log('land-value-max:', document.getElementById('land-value-max')?.value);
 
                 console.log('Filters applied:', { minLandValue, maxLandValue });
