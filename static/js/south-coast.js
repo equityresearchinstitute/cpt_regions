@@ -70,7 +70,6 @@ const street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
 
           const norm = (x) => String(x ?? "").replace(/[-\s]/g, "").trim();
           const byApn = Object.fromEntries(parsedRows.map(r => [norm(r.UNFORMATTEDAPN), r]));
-      
 
           /*-----------------------------------------------------------------------------------*/
           /*Turning sheet rows into GeoJSON feature points*/
@@ -121,6 +120,7 @@ const street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
                 }
               }
 
+
               
               /*-----------------------------------------------------------------------------------*/
               /*Creae Filter Functionality*/
@@ -146,11 +146,10 @@ const street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
 
                     // Search
                     if (searchTerm) {
-                      const address = (p?.ADDRESS || "").toUpperCase();
                       const county = (p?.COUNTY || "").toUpperCase();
                       const city = (p?.CITY || "").toUpperCase();
-                      const zipcode = (p?.ZIPCODE || "").toUpperCase();
-                      if (!address.includes(searchTerm) && !county.includes(searchTerm) && !city.includes(searchTerm) && !zipcode.includes(searchTerm)) return false;
+                      const zipcode = (p?.SITUSZIPCODE || "").toUpperCase();
+                      if (!county.includes(searchTerm) && !city.includes(searchTerm) && !zipcode.includes(searchTerm)) return false;
                     }
 
                     //Land value
@@ -300,11 +299,10 @@ const street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
                 //Fly to the first matching feature
                 if (searchTerm.length > 3) {
                   const match = pointsGeoJSON.features.find(f => {
-                    const address = (f.properties?.ADDRESS || "").toUpperCase();
                     const county = (f.properties?.COUNTY || "").toUpperCase();
                     const city = (f.properties?.SITUSCITY || "").toUpperCase();
                     const zipcode = (f.properties?.SITUSZIPCODE || "").toUpperCase();
-                    return address.includes(searchTerm) || county.includes(searchTerm) || city.includes(searchTerm) || zipcode.includes(searchTerm);
+                    return county.includes(searchTerm) || city.includes(searchTerm) || zipcode.includes(searchTerm);
                   });
 
                   if (match) {
@@ -446,9 +444,7 @@ const street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
 
                 const col1= `
                   ${section("Property")}
-                  ${kv("Address:", p.ADDRESS)}
                   ${kv("County:", p.COUNTY)}
-                  ${kv("Land Use:", p.COUNTYLANDUSEDESCRIPTION)}
                   ${kv("Assessed Land Value/Total Land SFT:", formatCurrency(p.ASSDLANDVALUEPERTOTALLANDSQUAREFOOTAGE))}
 
                   <div class="pt-col-action">
@@ -464,191 +460,4 @@ const street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
                   </div>
                 `;
               }
-
-
-              /*-----------------------------------------------------------------------------------*/
-              /* Table References */
-              /*-----------------------------------------------------------------------------------*/
-
-              const tbody = document.getElementById("selectedTableBody"); // creating tbody reference which finds the HTML element with the ID selectedTableBody, and keep a permanent reference to it so I can use it later
-              const parcels = pointsGeoJSON.features; // creating parcels reference which imports features from sampleParcels.js
-
-              let dummyCount = 0; // setting dummyCount reference to 0
-
-
-              /*-----------------------------------------------------------------------------------*/
-              /* Turn on and off bottom panel */
-              /*-----------------------------------------------------------------------------------*/
-              function updatePanelVisibility() {      
-                console.log("updatedPanelVisibility CALLED");        
-                const actualRows = tbody.querySelectorAll('tr[data-id]');
-                const count = actualRows.length;
-                console.log("Actual comparison rows:", count);
-
-                const bottomPanel = document.getElementById('bottomPanel');
-                  console.log("bottomPanel");
-
-                if (count === 0) {
-                  bottomPanel.classList.add('hidden');
-                } else {
-                  bottomPanel.classList.remove('hidden'); 
-                }
-              }
-
-              updatePanelVisibility();
-              console.log("test call completed");
-
-
-              /*-----------------------------------------------------------------------------------*/
-              /* Adding a Row */
-              /*-----------------------------------------------------------------------------------*/
-
-              function addRow(feature) {
-                if (!tbody) {
-                  console.warn("Table body #selectdTableBody not found.");
-                  return;
-                }
-
-                const empty = tbody.querySelector(".empty-row"); // creating empty reference whenever tbody querySelector has an empty row
-                if (empty) empty.remove(); // if the row is empty, remove the row
-
-                const r = feature.properties || {};
-                console.log(r);
-
-                const tr = document.createElement("tr");
-                tr.dataset.id = r.UNFORMATTEDAPN;
-                //creating a row for the table and pulling in data from properties data from google sheets below
-                tr.innerHTML = `
-                <td><button class="pt-remove" data-id="${esc(r.UNFORMATTEDAPN)}">✕</button></td>
-                <td>${r.ADDRESS}</td> 
-                <td>${r.COUNTYLANDUSEDESCRIPTION}</td>
-                <td>${formatCurrency(r.ASSDLANDVALUEPERTOTALLANDSQUAREFOOTAGE)}</td>
-                `;
-
-                tbody.appendChild(tr); //adding these rows to the table
-                updatePanelVisibility();
-
-              }
-
-              /*-----------------------------------------------------------------------------------*/
-              /* Removing a Row */
-              /*-----------------------------------------------------------------------------------*/
-                tbody.addEventListener("click", (e) => {
-                  if (e.target.classList.contains("pt-remove")) {
-                    const row = e.target.closest("tr");
-                    row.remove();
-                    updatePanelVisibility();
-                  }
-                });
-
-              
-              /*-----------------------------------------------------------------------------------*/
-              /* Export Selected Rows as Excel Document */
-              /*-----------------------------------------------------------------------------------*/
-
-                let allData = parsedRows;
-                let idKey = "UNFORMATTEDAPN";
-
-                function exportSelectedToXlsx({
-                  tbody, 
-                  allData, 
-                  idKey, 
-                  filename = "selected_rows"
-                }) {
-                  //get selected row IDs from the selected table
-                  const selectedIds = Array.from(tbody.querySelectorAll("tr"))
-                    .map(tr => tr.dataset.id)
-                    .filter(Boolean);
-                  
-                  if (selectedIds.length === 0) {
-                    alert("No rows selected to export.");
-                    return;
-                  }
-
-                  //lookup for full rows
-                  const byId = new Map(allData.map(row => [String(row[idKey]), row]));
-
-
-                  //pull full rows for selected Ids (in the same order as the table)
-                  const rowsToExport = selectedIds
-                    .map(id => byId.get(String(id)))
-                    .filter(Boolean);
-
-                  if (rowsToExport.length ===0) {
-                    alert("Couldn't match selected rows back to the full dataset.");
-                    return;
-                  }
-
-                  //get all columns that exist in the full dataset
-                  const headers = Array.from(
-                    rowsToExport.reduce((set, row) => {
-                      Object.keys(row).forEach(k => set.add(k));
-                      return set;
-                    }, new Set())
-                  ); 
-
-                  // zipcelx data from format: array of rows, each row array contains {value}
-                  const toCell = (v) => ({
-                    value: (v === null || v === undefined) ? "": String(v)
-                  });
-
-                  const data = [
-                    headers.map(h => ({ value: h,})),
-                    ...rowsToExport.map(row => headers.map(h => toCell(row[h])))
-                  ];
-
-                  window.zipcelx({
-                    filename: `${filename}_${new Date().toISOString().slice(0,10)}`,
-                    sheet: {data}
-                  });
-                }
-
-                document.querySelector("#exportBtn").addEventListener("click", () => {
-                  exportSelectedToXlsx({
-                    tbody,
-                    allData,
-                    idKey,
-                  });
-
-                })
-
-                
-
-              /*-----------------------------------------------------------------------------------*/
-              /* Tooltip compare clicks (dynamic) */
-              /*-----------------------------------------------------------------------------------*/
-
-                //Handle cliks on dynamically-created tooltip Compare buttons 
-                document.addEventListener("click", (e) => {
-                  const btn = e.target.closest(".pt-compare");
-                  if (!btn) return;
-
-                  const apn = btn.dataset.apn ||"";
-                  console.log('Looking for APN:', apn);
-                  console.log('APN type:', typeof apn);
-
-                  //let's see what we're comparing against
-                  console.log('Sample parcels APNs:', parcels.slice(0,3).map(f => ({
-                    apn: f.properties?.UNFORMATTEDAPN,
-                    type: typeof f.properties?.UNFORMATTEDAPN
-                  })));
-
-
-                  const feature = parcels.find(
-                    f => (f.properties?.UNFORMATTEDAPN || "")=== String(apn)
-                  );
-                  
-                  console.log('Match found:', feature);
-                  console.log('Found feature:', feature?.properties?.UNFORMATTEDAPN);
-                  
-                  
-                  if (!feature) {
-                    console.warn("Could not find feature for APN:", apn);
-                    alert("Could not find feature for APN:" + apn); 
-                    return;
-                  }
-
-                  addRow(feature); // add the feature to the bottom table
-
-                });
         })
